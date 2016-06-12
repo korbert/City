@@ -1,49 +1,53 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Menu : MonoBehaviour {
+public class Menu : MonoBehaviour
+{
+	[SerializeField]
+	GameObject[] menus;
 
-    [SerializeField]
-    MenuType menuType;
+	[SerializeField]
+	RectTransform border;
 
-    [SerializeField]
-    RectTransform border;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public void OnClick(int type)
+	{
+		MenuType menuType = (MenuType)type;
+		SetBorderPosition(menuType);
+		Show(menuType);
 	}
 
+	void SetBorderPosition(MenuType menu)
+	{
+		switch (menu)
+		{
+			case MenuType.Major:
+				SetAnchor(.92f, 1);
+				break;
+			case MenuType.Emergency:
+				SetAnchor(.82f, .9f);
+				break;
+			case MenuType.Contracts:
+				SetAnchor(.72f, .8f);
+				break;
+			case MenuType.Call:
+				SetAnchor(.408f, .55f);
+				break;
+			default:
+				break;
+		}
+	}
 
-    public void OnClick()
-    {
-        switch (menuType)
-        {
-            case MenuType.Major:
-                SetAnchor(.92f, 1);
-                break;
-            case MenuType.Emergency:
-                SetAnchor(.82f, .9f);
-                break;
-            case MenuType.Contracts:
-                SetAnchor(.72f, .8f);
-                break;
-            case MenuType.Call:
-                SetAnchor(.408f, .55f);
-                break;
-            default:
-                break;
-        }
-    }
+	void Show(MenuType menu)
+	{
+		int count = menus.Length;
+		for (int i = 0; i < count; i++)
+		{
+			menus[i].SetActive(i == (int)menu);
+		}
+	}
 
-    void SetAnchor(float minHeight, float maxHeight)
-    {
-        border.anchorMin = new Vector2(.8f, minHeight);
-        border.anchorMax = new Vector2(1, maxHeight);
-    }
+	void SetAnchor(float minHeight, float maxHeight)
+	{
+		border.anchorMin = new Vector2(.8f, minHeight);
+		border.anchorMax = new Vector2(1, maxHeight);
+	}
 }
